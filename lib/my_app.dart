@@ -1,4 +1,4 @@
-import 'package:calculadora_f/home_screen.dart';
+import 'package:calculadora_f/tela_grid.dart';
 import 'package:flutter/material.dart';
 
 class MyApp extends StatefulWidget {
@@ -14,7 +14,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       theme: ThemeData(
           brightness: Brightness.dark, primaryColor: Colors.deepPurple),
-      home: HomeScreen(),
+      home: TelaGrid(),
     );
   }
 }
