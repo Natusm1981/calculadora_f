@@ -44,7 +44,7 @@ class GridBotoes extends StatelessWidget {
         Botao(
             onTap: (valor) =>
                 onButtonClick!(OperationButtonClick(valor: valor)),
-            valor: 'X'),
+            valor: '*'),
         Botao(
             onTap: (valor) => onButtonClick!(NumberButtonClick(valor: valor)),
             valor: '4',
