@@ -1,15 +1,14 @@
 import 'package:calculadora_f/grid_botoes.dart';
 import 'package:flutter/material.dart';
-import 'package:function_tree/function_tree.dart';
+import 'package:math_expressions/math_expressions.dart';
 
 class CalcController extends ChangeNotifier {
   String display = '0';
   String temp = '';
   String operation = '';
-
   bool replaceOp = false;
   bool primeiroClique = true;
-  num resultado = 0.0;
+  double resultado = 0.0;
   bool podePorPonto = true;
   RegExp operacoes = RegExp(r'[+\-/*]$');
 
@@ -22,7 +21,6 @@ class CalcController extends ChangeNotifier {
         }
         podePorPonto = false;
       }
-
       if (primeiroClique) {
         display = '';
         primeiroClique = false;
@@ -34,6 +32,7 @@ class CalcController extends ChangeNotifier {
       display += temp;
       temp = '';
       replaceOp = false;
+      display = tratarDisplay(display);
     } else if (click is OperationButtonClick) {
       if (operacoes.hasMatch(display[display.length - 1])) {
         display = display.substring(0, display.length - 1);
@@ -41,15 +40,12 @@ class CalcController extends ChangeNotifier {
       } else {
         display += click.valor;
       }
-
       primeiroClique = false;
       podePorPonto = true;
-      print(click.valor);
     } else if (click is ClearButtonClick) {
       display = '0';
       temp = '';
       operation = '';
-
       replaceOp = false;
       primeiroClique = true;
       podePorPonto = true;
@@ -75,36 +71,39 @@ class CalcController extends ChangeNotifier {
         display = display.substring(0, display.length - 1);
       }
       try {
-        resultado = display.interpret();
-        if (operacoes.hasMatch(display[display.length - 1])) {
-          throw Exception('erro de lógica');
-        }
+        final Parser p = Parser();
+        Expression exp = p.parse(display);
+        resultado = exp.evaluate(EvaluationType.REAL, ContextModel());
         display = resultado.toString();
-
-        display = tratarDisplay(display, click.valor);
+        display = tratarDisplay(display);
+        display = verificaPontoNoDisplay(display);
+      } catch (err) {
+        display = 'error';
+        primeiroClique = true;
+      } finally {
         temp = '';
         replaceOp = false;
         resultado = 0;
         primeiroClique = true;
         podePorPonto = true;
-        //lastOpPosition = 0;
-      } catch (err) {
-        display = 'error';
       }
     }
     notifyListeners();
   }
 }
 
-String tratarDisplay(String display, String valor) {
+String verificaPontoNoDisplay(String display) {
   if (display.endsWith('.')) {
     display = display.substring(0, display.length - 1);
   } else if (display.endsWith('.0')) {
     display = display.substring(0, display.length - 2);
   }
-  if (display.length > 13) {
+  return display;
+}
+
+String tratarDisplay(String display) {
+  if (display.length > 12) {
     display = display.substring(0, 12);
-    display = display.interpret().toString();
   }
 
   return display;

@@ -34,14 +34,18 @@ class _TelaGridState extends State<TelaGrid> {
       child: Column(
         children: [
           Expanded(
-            flex: 1,
+            flex: 3,
             child: TelaDisplay(valor: controller.display),
           ),
           Expanded(
-            flex: 2,
+            flex: 7,
             child: GridBotoes(
               onButtonClick: controller.onButtonClick,
             ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Placeholder(), // Reservado para teste de AD
           ),
         ],
       ),
