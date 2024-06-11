@@ -3,6 +3,7 @@ import 'package:calculadora_f/grid_botoes.dart';
 import 'package:calculadora_f/tela_display.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'env_var.dart';
 
 class TelaGrid extends StatefulWidget {
   const TelaGrid({super.key});
@@ -37,17 +38,17 @@ class _TelaGridState extends State<TelaGrid> {
       child: Column(
         children: [
           Expanded(
-            flex: 3,
+            flex: 20,
             child: TelaDisplay(valor: controller.display),
           ),
           Expanded(
-            flex: 7,
+            flex: 70,
             child: GridBotoes(
               onButtonClick: controller.onButtonClick,
             ),
           ),
           Expanded(
-            flex: 1,
+            flex: 15,
             child: Align(
               alignment: Alignment.center,
               child: SafeArea(
@@ -58,7 +59,6 @@ class _TelaGridState extends State<TelaGrid> {
                 ),
               ),
             ),
-            // Reservado para teste de AD
           ),
         ],
       ),
@@ -68,7 +68,7 @@ class _TelaGridState extends State<TelaGrid> {
 
 BannerAd bandeira = BannerAd(
   size: AdSize.banner,
-  adUnitId: 'ca-app-pub-3940256099942544/6300978111',
+  adUnitId: adUnitId,
   listener: BannerAdListener(
     onAdLoaded: (ad) {
       debugPrint('$ad carregado');

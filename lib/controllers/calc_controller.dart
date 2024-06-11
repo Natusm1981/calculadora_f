@@ -71,6 +71,10 @@ class CalcController extends ChangeNotifier {
         display = display.substring(0, display.length - 1);
       }
       try {
+        if (display.contains('%')) {
+          display = display.replaceAll('%', '/100');
+        }
+        debugPrint(display);
         final Parser p = Parser();
         Expression exp = p.parse(display);
         resultado = exp.evaluate(EvaluationType.REAL, ContextModel());
